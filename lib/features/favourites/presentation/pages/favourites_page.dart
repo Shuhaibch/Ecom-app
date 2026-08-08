@@ -38,7 +38,8 @@ class FavouritesPage extends StatelessWidget {
           ),
           itemCount: state.favourites.length,
           itemBuilder: (context, index) {
-            return _FavouriteGridItem(product: state.favourites[index]);
+            final product = state.favourites[index];
+            return _FavouriteGridItem(key: ValueKey(product.id), product: product);
           },
         );
       },
@@ -46,23 +47,57 @@ class FavouritesPage extends StatelessWidget {
   }
 }
 
-class _FavouriteGridItem extends StatelessWidget {
+class _FavouriteGridItem extends StatefulWidget {
   final Product product;
 
-  const _FavouriteGridItem({required this.product});
+  const _FavouriteGridItem({super.key, required this.product});
+
+  @override
+  State<_FavouriteGridItem> createState() => _FavouriteGridItemState();
+}
+
+class _FavouriteGridItemState extends State<_FavouriteGridItem>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    // Only newly-favourited items get a fresh State (existing ones keep
+    // theirs across rebuilds thanks to the ValueKey), so this entrance
+    // animation naturally plays only for items just added to the grid.
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final product = widget.product;
     final cartQuantity = context.select<CartCubit, int>(
       (cubit) => cubit.quantityOf(product.id),
     );
-    return ProductCard(
-      product: product,
-      isFavourite: true,
-      cartQuantity: cartQuantity,
-      onTap: () => context.push(AppRoutes.productDetailsPath(product.id)),
-      onFavouriteToggle: () => context.read<FavouritesCubit>().toggle(product),
-      onAddToCart: () => context.read<CartCubit>().increment(product),
+    return ScaleTransition(
+      scale: CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
+      child: FadeTransition(
+        opacity: _controller,
+        child: ProductCard(
+          product: product,
+          isFavourite: true,
+          cartQuantity: cartQuantity,
+          onTap: () => context.push(AppRoutes.productDetailsPath(product.id)),
+          onFavouriteToggle: () =>
+              context.read<FavouritesCubit>().toggle(product),
+          onAddToCart: () => context.read<CartCubit>().increment(product),
+        ),
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ecom/core/di/injection_container.dart';
 import 'package:ecom/core/widgets/app_error_view.dart';
+import 'package:ecom/core/widgets/bounce_on_change.dart';
 import 'package:ecom/features/cart/presentation/bloc/cart_cubit.dart';
 import 'package:ecom/features/favourites/presentation/bloc/favourites_cubit.dart';
 import 'package:ecom/features/products/domain/entities/product.dart';
@@ -106,16 +107,19 @@ class _ProductDetailsContentState extends State<_ProductDetailsContent> {
                 final isFavourite = context.select<FavouritesCubit, bool>(
                   (cubit) => cubit.isFavourite(product.id),
                 );
-                return IconButton(
-                  icon: Icon(
-                    isFavourite ? Icons.favorite : Icons.favorite_border,
+                return BounceOnChange(
+                  value: isFavourite,
+                  child: IconButton(
+                    icon: Icon(
+                      isFavourite ? Icons.favorite : Icons.favorite_border,
+                    ),
+                    color: isFavourite ? colorScheme.error : null,
+                    tooltip: isFavourite
+                        ? l10n.removeFromFavourites
+                        : l10n.addToFavourites,
+                    onPressed: () =>
+                        context.read<FavouritesCubit>().toggle(product),
                   ),
-                  color: isFavourite ? colorScheme.error : null,
-                  tooltip: isFavourite
-                      ? l10n.removeFromFavourites
-                      : l10n.addToFavourites,
-                  onPressed: () =>
-                      context.read<FavouritesCubit>().toggle(product),
                 );
               },
             ),
@@ -312,36 +316,44 @@ class _AddToCartBar extends StatelessWidget {
               (cubit) => cubit.quantityOf(product.id),
             );
 
-            if (quantity == 0) {
-              return SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: product.isOutOfStock
-                      ? null
-                      : () => context.read<CartCubit>().increment(product),
-                  icon: const Icon(Icons.add_shopping_cart_rounded),
-                  label: Text(l10n.addToCart),
-                ),
-              );
-            }
-
-            return Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () => context.read<CartCubit>().decrement(product),
-                    icon: const Icon(Icons.remove),
-                    label: Text('${l10n.quantity}: $quantity'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                IconButton.filled(
-                  onPressed: quantity >= product.stock
-                      ? null
-                      : () => context.read<CartCubit>().increment(product),
-                  icon: const Icon(Icons.add),
-                ),
-              ],
+            return AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              transitionBuilder: (child, animation) => FadeTransition(
+                opacity: animation,
+                child: ScaleTransition(scale: animation, child: child),
+              ),
+              child: quantity == 0
+                  ? SizedBox(
+                      key: const ValueKey('add'),
+                      width: double.infinity,
+                      child: ElevatedButton.icon(
+                        onPressed: product.isOutOfStock
+                            ? null
+                            : () => context.read<CartCubit>().increment(product),
+                        icon: const Icon(Icons.add_shopping_cart_rounded),
+                        label: Text(l10n.addToCart),
+                      ),
+                    )
+                  : Row(
+                      key: const ValueKey('stepper'),
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () =>
+                                context.read<CartCubit>().decrement(product),
+                            icon: const Icon(Icons.remove),
+                            label: Text('${l10n.quantity}: $quantity'),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        IconButton.filled(
+                          onPressed: quantity >= product.stock
+                              ? null
+                              : () => context.read<CartCubit>().increment(product),
+                          icon: const Icon(Icons.add),
+                        ),
+                      ],
+                    ),
             );
           },
         ),

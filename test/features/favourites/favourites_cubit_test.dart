@@ -38,6 +38,8 @@ const _product = Product(
 );
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late _InMemoryFavouritesRepository repository;
   late FavouritesCubit cubit;
 

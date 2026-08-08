@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ecom/features/favourites/domain/repositories/favourites_repository.dart';
@@ -15,6 +16,7 @@ class FavouritesCubit extends Cubit<FavouritesState> {
   bool isFavourite(int productId) => state.contains(productId);
 
   void toggle(Product product) {
+    HapticFeedback.selectionClick();
     repository.toggle(product);
     emit(FavouritesState(favourites: repository.getAll()));
   }

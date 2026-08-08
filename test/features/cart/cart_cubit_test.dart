@@ -38,6 +38,8 @@ Product _product({int id = 1, double price = 50, double discount = 0, int stock 
 }
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   late _InMemoryCartRepository repository;
   late CartCubit cubit;
 

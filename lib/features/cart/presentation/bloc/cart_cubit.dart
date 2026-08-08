@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ecom/features/cart/domain/repositories/cart_repository.dart';
@@ -16,6 +17,7 @@ class CartCubit extends Cubit<CartState> {
   void increment(Product product) {
     final current = state.quantityOf(product.id);
     if (current >= product.stock) return;
+    HapticFeedback.lightImpact();
     repository.setQuantity(product, current + 1);
     _refresh();
   }
@@ -23,11 +25,13 @@ class CartCubit extends Cubit<CartState> {
   void decrement(Product product) {
     final current = state.quantityOf(product.id);
     if (current <= 0) return;
+    HapticFeedback.selectionClick();
     repository.setQuantity(product, current - 1);
     _refresh();
   }
 
   void removeItem(Product product) {
+    HapticFeedback.mediumImpact();
     repository.setQuantity(product, 0);
     _refresh();
   }

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecom/core/widgets/app_empty_view.dart';
 import 'package:ecom/features/cart/presentation/bloc/cart_cubit.dart';
 import 'package:ecom/features/cart/presentation/bloc/cart_state.dart';
-import 'package:ecom/features/cart/presentation/widgets/cart_item_tile.dart';
+import 'package:ecom/features/cart/presentation/widgets/animated_cart_list.dart';
 import 'package:ecom/features/cart/presentation/widgets/cart_summary.dart';
 import 'package:ecom/l10n/app_localizations.dart';
 
@@ -29,19 +29,11 @@ class CartPage extends StatelessWidget {
         return Column(
           children: [
             Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                itemCount: state.items.length,
-                separatorBuilder: (_, _) => const Divider(height: 1),
-                itemBuilder: (context, index) {
-                  final item = state.items[index];
-                  return CartItemTile(
-                    item: item,
-                    onIncrement: () => cubit.increment(item.product),
-                    onDecrement: () => cubit.decrement(item.product),
-                    onRemove: () => cubit.removeItem(item.product),
-                  );
-                },
+              child: AnimatedCartList(
+                items: state.items,
+                onIncrement: (item) => cubit.increment(item.product),
+                onDecrement: (item) => cubit.decrement(item.product),
+                onRemove: (item) => cubit.removeItem(item.product),
               ),
             ),
             CartSummary(

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'package:ecom/core/widgets/bounce_on_change.dart';
 import 'package:ecom/features/products/domain/entities/product.dart';
 import 'package:ecom/l10n/app_localizations.dart';
 
@@ -61,13 +62,16 @@ class ProductCard extends StatelessWidget {
                   Positioned(
                     top: 4,
                     right: 4,
-                    child: _CircleIconButton(
-                      icon: isFavourite ? Icons.favorite : Icons.favorite_border,
-                      iconColor: isFavourite ? colorScheme.error : null,
-                      tooltip: isFavourite
-                          ? l10n.removeFromFavourites
-                          : l10n.addToFavourites,
-                      onPressed: onFavouriteToggle,
+                    child: BounceOnChange(
+                      value: isFavourite,
+                      child: _CircleIconButton(
+                        icon: isFavourite ? Icons.favorite : Icons.favorite_border,
+                        iconColor: isFavourite ? colorScheme.error : null,
+                        tooltip: isFavourite
+                            ? l10n.removeFromFavourites
+                            : l10n.addToFavourites,
+                        onPressed: onFavouriteToggle,
+                      ),
                     ),
                   ),
                   if (product.isOutOfStock)
@@ -156,14 +160,17 @@ class ProductCard extends StatelessWidget {
                             ),
                           ),
                   ),
-                  Badge(
-                    isLabelVisible: cartQuantity > 0,
-                    label: Text('$cartQuantity'),
-                    child: _CircleIconButton(
-                      icon: Icons.add_shopping_cart_rounded,
-                      tooltip: l10n.addToCart,
-                      filled: true,
-                      onPressed: product.isOutOfStock ? null : onAddToCart,
+                  BounceOnChange(
+                    value: cartQuantity,
+                    child: Badge(
+                      isLabelVisible: cartQuantity > 0,
+                      label: Text('$cartQuantity'),
+                      child: _CircleIconButton(
+                        icon: Icons.add_shopping_cart_rounded,
+                        tooltip: l10n.addToCart,
+                        filled: true,
+                        onPressed: product.isOutOfStock ? null : onAddToCart,
+                      ),
                     ),
                   ),
                 ],

@@ -127,6 +127,7 @@ void main() {
 
     await tester.tap(find.text('Add to cart'));
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Add to cart'), findsNothing);
     expect(find.text('Quantity: 1'), findsOneWidget);
