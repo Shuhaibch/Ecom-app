@@ -1,0 +1,49 @@
+{
+  "@@locale": "ar",
+
+  "appTitle": "إيكوم",
+
+  "retry": "إعادة المحاولة",
+  "ok": "موافق",
+  "cancel": "إلغاء",
+  "loading": "جارٍ التحميل…",
+
+  "navProducts": "المنتجات",
+  "navFavourites": "المفضلة",
+  "navCart": "السلة",
+
+  "switchLanguage": "تغيير اللغة",
+
+  "somethingWentWrong": "حدث خطأ ما",
+  "noInternetConnection": "لا يوجد اتصال بالإنترنت",
+  "noInternetConnectionDescription": "تحقق من اتصالك وحاول مرة أخرى.",
+  "noResultsFoundTitle": "لا توجد نتائج",
+  "noResultsFoundDescription": "جرّب كلمة بحث أو فئة مختلفة.",
+  "imageUnavailable": "الصورة غير متوفرة",
+
+  "emptyFavouritesTitle": "لا توجد عناصر مفضلة بعد",
+  "emptyFavouritesDescription": "اضغط على أيقونة القلب في أي منتج لحفظه هنا.",
+
+  "emptyCartTitle": "سلتك فارغة",
+  "emptyCartDescription": "ستظهر هنا المنتجات التي تضيفها إلى السلة.",
+
+  "searchHint": "ابحث عن المنتجات",
+  "allCategories": "الكل",
+
+  "categoryLabel": "الفئة",
+  "descriptionLabel": "الوصف",
+  "priceLabel": "السعر",
+  "discountLabel": "الخصم",
+  "ratingLabel": "التقييم",
+  "stockLabel": "المخزون",
+  "addToCart": "أضف إلى السلة",
+  "addToFavourites": "أضف إلى المفضلة",
+  "removeFromFavourites": "إزالة من المفضلة",
+
+  "stockStatus": "{count, plural, =0{نفدت الكمية} one{بقي واحد فقط} two{بقي اثنان فقط} few{بقي {count} فقط} many{بقي {count} فقط} other{{count} متوفر في المخزون}}",
+
+  "subtotal": "الإجمالي الفرعي",
+  "total": "الإجمالي",
+  "remove": "إزالة",
+  "quantity": "الكمية"
+}

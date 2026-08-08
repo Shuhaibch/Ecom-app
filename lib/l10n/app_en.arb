@@ -1,0 +1,54 @@
+{
+  "@@locale": "en",
+
+  "appTitle": "Ecom",
+
+  "retry": "Retry",
+  "ok": "OK",
+  "cancel": "Cancel",
+  "loading": "Loading…",
+
+  "navProducts": "Products",
+  "navFavourites": "Favourites",
+  "navCart": "Cart",
+
+  "switchLanguage": "Switch language",
+
+  "somethingWentWrong": "Something went wrong",
+  "noInternetConnection": "No internet connection",
+  "noInternetConnectionDescription": "Check your connection and try again.",
+  "noResultsFoundTitle": "No results found",
+  "noResultsFoundDescription": "Try a different search term or category.",
+  "imageUnavailable": "Image unavailable",
+
+  "emptyFavouritesTitle": "No favourites yet",
+  "emptyFavouritesDescription": "Tap the heart on a product to save it here.",
+
+  "emptyCartTitle": "Your cart is empty",
+  "emptyCartDescription": "Products you add to the cart will appear here.",
+
+  "searchHint": "Search products",
+  "allCategories": "All",
+
+  "categoryLabel": "Category",
+  "descriptionLabel": "Description",
+  "priceLabel": "Price",
+  "discountLabel": "Discount",
+  "ratingLabel": "Rating",
+  "stockLabel": "Stock",
+  "addToCart": "Add to cart",
+  "addToFavourites": "Add to favourites",
+  "removeFromFavourites": "Remove from favourites",
+
+  "stockStatus": "{count, plural, =0{Out of stock} one{Only 1 left} other{{count} in stock}}",
+  "@stockStatus": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "subtotal": "Subtotal",
+  "total": "Total",
+  "remove": "Remove",
+  "quantity": "Quantity"
+}

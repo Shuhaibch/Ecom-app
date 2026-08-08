@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 
-/// Temporary placeholder shown until its feature is implemented.
+/// Temporary body shown for a shell-branch root until its feature is
+/// implemented. Rendered inside [AppShell]'s Scaffold, so it has no
+/// AppBar of its own.
+class PlaceholderBody extends StatelessWidget {
+  final String title;
+
+  const PlaceholderBody({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        '$title — coming soon',
+        style: Theme.of(context).textTheme.bodyLarge,
+      ),
+    );
+  }
+}
+
+/// Temporary full page (with its own AppBar) shown for routes pushed on
+/// the root navigator, e.g. product details, until implemented.
 class PlaceholderPage extends StatelessWidget {
   final String title;
 
@@ -10,12 +30,7 @@ class PlaceholderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text(
-          '$title — coming soon',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
+      body: PlaceholderBody(title: title),
     );
   }
 }

@@ -3,7 +3,10 @@
     "allow": [
       "Bash(flutter pub *)",
       "Bash(cd \"a:\\\\presevo\\\\ecom\" && mkdir -p lib/core/constants lib/core/di lib/core/error lib/core/network lib/core/router lib/core/theme lib/core/usecase lib/core/utils lib/core/widgets lib/features/products lib/features/product_details lib/features/favourites lib/features/cart lib/l10n && echo done)",
-      "Bash(flutter create *)"
+      "Bash(flutter create *)",
+      "Bash(flutter gen-l10n *)",
+      "Bash(flutter analyze *)",
+      "Bash(flutter test *)"
     ],
     "additionalDirectories": [
       "a:\\presevo\\ecom\\lib\\core"

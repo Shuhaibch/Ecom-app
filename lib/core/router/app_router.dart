@@ -20,10 +20,13 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: AppRoutes.products,
               builder: (context, state) =>
-                  const PlaceholderPage(title: 'Products'),
+                  const PlaceholderBody(title: 'Products'),
               routes: [
                 GoRoute(
                   path: AppRoutes.productDetails,
+                  // Pushed on the root navigator so it covers the bottom
+                  // nav and shell AppBar instead of nesting inside them.
+                  parentNavigatorKey: rootNavigatorKey,
                   builder: (context, state) =>
                       const PlaceholderPage(title: 'Product details'),
                 ),
@@ -36,7 +39,7 @@ final GoRouter appRouter = GoRouter(
             GoRoute(
               path: AppRoutes.favourites,
               builder: (context, state) =>
-                  const PlaceholderPage(title: 'Favourites'),
+                  const PlaceholderBody(title: 'Favourites'),
             ),
           ],
         ),
@@ -44,7 +47,8 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: AppRoutes.cart,
-              builder: (context, state) => const PlaceholderPage(title: 'Cart'),
+              builder: (context, state) =>
+                  const PlaceholderBody(title: 'Cart'),
             ),
           ],
         ),
