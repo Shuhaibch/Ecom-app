@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ecom/core/widgets/bounce_on_change.dart';
+import 'package:ecom/core/widgets/price_text.dart';
 import 'package:ecom/features/products/domain/entities/product.dart';
 import 'package:ecom/l10n/app_localizations.dart';
 
@@ -130,8 +131,8 @@ class ProductCard extends StatelessWidget {
                             textBaseline: TextBaseline.alphabetic,
                             children: [
                               Flexible(
-                                child: Text(
-                                  '\$${product.discountedPrice.toStringAsFixed(2)}',
+                                child: PriceText(
+                                  amount: product.discountedPrice,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.titleMedium?.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -141,8 +142,8 @@ class ProductCard extends StatelessWidget {
                               ),
                               const SizedBox(width: 4),
                               Flexible(
-                                child: Text(
-                                  '\$${product.price.toStringAsFixed(2)}',
+                                child: PriceText(
+                                  amount: product.price,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.bodySmall?.copyWith(
                                     color: colorScheme.outline,
@@ -152,8 +153,8 @@ class ProductCard extends StatelessWidget {
                               ),
                             ],
                           )
-                        : Text(
-                            '\$${product.price.toStringAsFixed(2)}',
+                        : PriceText(
+                            amount: product.price,
                             style: textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: colorScheme.primary,

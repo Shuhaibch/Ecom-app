@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:ecom/core/widgets/price_text.dart';
 import 'package:ecom/l10n/app_localizations.dart';
 
 class CartSummary extends StatelessWidget {
@@ -77,15 +78,15 @@ class _SummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sign = value < 0 ? '-' : '';
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: style),
-          Text(
-            '$sign\$${value.abs().toStringAsFixed(2)}',
+          PriceText(
+            amount: value,
+            negative: value < 0,
             style: (style ?? const TextStyle()).copyWith(color: valueColor),
           ),
         ],

@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:ecom/core/error/failures.dart';
 import 'package:ecom/core/utils/result.dart';
+import 'package:ecom/core/widgets/price_text.dart';
 import 'package:ecom/features/cart/domain/entities/cart_item.dart';
 import 'package:ecom/features/cart/domain/repositories/cart_repository.dart';
 import 'package:ecom/features/cart/presentation/bloc/cart_cubit.dart';
@@ -111,7 +112,10 @@ void main() {
 
     expect(find.text('Test Sneakers'), findsOneWidget);
     expect(find.text('Comfortable everyday sneakers.'), findsOneWidget);
-    expect(find.text('\$90.00'), findsOneWidget);
+    expect(
+      find.byWidgetPredicate((w) => w is PriceText && w.amount == 90.0),
+      findsOneWidget,
+    );
     expect(useCase.callCount, 1);
   });
 

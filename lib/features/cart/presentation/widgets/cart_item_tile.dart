@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import 'package:ecom/core/widgets/price_text.dart';
 import 'package:ecom/features/cart/domain/entities/cart_item.dart';
 import 'package:ecom/l10n/app_localizations.dart';
 
@@ -69,8 +70,8 @@ class CartItemTile extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  '\$${product.discountedPrice.toStringAsFixed(2)}',
+                PriceText(
+                  amount: product.discountedPrice,
                   style: textTheme.bodyMedium?.copyWith(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.bold,

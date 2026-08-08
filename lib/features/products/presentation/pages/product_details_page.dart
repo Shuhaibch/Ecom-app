@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ecom/core/di/injection_container.dart';
 import 'package:ecom/core/widgets/app_error_view.dart';
 import 'package:ecom/core/widgets/bounce_on_change.dart';
+import 'package:ecom/core/widgets/price_text.dart';
 import 'package:ecom/features/cart/presentation/bloc/cart_cubit.dart';
 import 'package:ecom/features/favourites/presentation/bloc/favourites_cubit.dart';
 import 'package:ecom/features/products/domain/entities/product.dart';
@@ -217,8 +218,8 @@ class _ProductDetailsContentState extends State<_ProductDetailsContent> {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text(
-                      '\$${product.discountedPrice.toStringAsFixed(2)}',
+                    PriceText(
+                      amount: product.discountedPrice,
                       style: textTheme.headlineSmall?.copyWith(
                         color: colorScheme.primary,
                         fontWeight: FontWeight.bold,
@@ -226,8 +227,8 @@ class _ProductDetailsContentState extends State<_ProductDetailsContent> {
                     ),
                     if (hasDiscount) ...[
                       const SizedBox(width: 8),
-                      Text(
-                        '\$${product.price.toStringAsFixed(2)}',
+                      PriceText(
+                        amount: product.price,
                         style: textTheme.bodyMedium?.copyWith(
                           color: colorScheme.outline,
                           decoration: TextDecoration.lineThrough,
