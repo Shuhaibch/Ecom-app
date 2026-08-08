@@ -39,4 +39,7 @@ class CartRepositoryImpl implements CartRepository {
       }),
     );
   }
+
+  @override
+  void clear() => box.clear();
 }

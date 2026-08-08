@@ -9,4 +9,7 @@ abstract interface class CartRepository {
 
   /// Setting quantity to 0 or below removes the item entirely.
   void setQuantity(Product product, int quantity);
+
+  /// Removes every item, e.g. after an order is placed.
+  void clear();
 }

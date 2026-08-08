@@ -45,5 +45,11 @@
   "subtotal": "الإجمالي الفرعي",
   "total": "الإجمالي",
   "remove": "إزالة",
-  "quantity": "الكمية"
+  "quantity": "الكمية",
+
+  "buyNow": "اشترِ الآن",
+  "confirmOrder": "تأكيد الطلب",
+  "confirmOrderTitle": "تأكيد طلبك",
+  "confirmOrderMessage": "أنت على وشك إتمام هذا الطلب. لا يمكن التراجع عن هذا الإجراء.",
+  "orderPlacedMessage": "تم تقديم طلبك بنجاح!"
 }

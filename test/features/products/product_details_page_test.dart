@@ -47,6 +47,9 @@ class _FakeCartRepository implements CartRepository {
       _items[product.id] = CartItem(product: product, quantity: quantity);
     }
   }
+
+  @override
+  void clear() => _items.clear();
 }
 
 class _FakeGetProductById implements GetProductById {

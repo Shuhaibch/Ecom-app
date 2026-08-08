@@ -7,12 +7,14 @@ class CartSummary extends StatelessWidget {
   final double subtotal;
   final double discount;
   final double total;
+  final VoidCallback onBuyNow;
 
   const CartSummary({
     super.key,
     required this.subtotal,
     required this.discount,
     required this.total,
+    required this.onBuyNow,
   });
 
   @override
@@ -55,6 +57,14 @@ class CartSummary extends StatelessWidget {
               label: l10n.total,
               value: total,
               style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: onBuyNow,
+                child: Text(l10n.buyNow),
+              ),
             ),
           ],
         ),

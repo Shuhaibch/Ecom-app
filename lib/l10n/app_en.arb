@@ -50,5 +50,11 @@
   "subtotal": "Subtotal",
   "total": "Total",
   "remove": "Remove",
-  "quantity": "Quantity"
+  "quantity": "Quantity",
+
+  "buyNow": "Buy Now",
+  "confirmOrder": "Confirm Order",
+  "confirmOrderTitle": "Confirm your order",
+  "confirmOrderMessage": "You're about to place this order. This action cannot be undone.",
+  "orderPlacedMessage": "Your order has been placed!"
 }

@@ -19,6 +19,9 @@ class _InMemoryCartRepository implements CartRepository {
       _store[product.id] = CartItem(product: product, quantity: quantity);
     }
   }
+
+  @override
+  void clear() => _store.clear();
 }
 
 Product _product({int id = 1, double price = 50, double discount = 0, int stock = 3}) {
@@ -85,6 +88,16 @@ void main() {
     cubit.removeItem(product);
 
     expect(cubit.quantityOf(product.id), 0);
+  });
+
+  test('checkout empties the entire cart', () {
+    cubit.increment(_product(id: 1));
+    cubit.increment(_product(id: 2));
+
+    cubit.checkout();
+
+    expect(cubit.state.isEmpty, isTrue);
+    expect(repository.getAll(), isEmpty);
   });
 
   test('subtotal, discount and total are computed correctly', () {

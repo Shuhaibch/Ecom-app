@@ -36,5 +36,12 @@ class CartCubit extends Cubit<CartState> {
     _refresh();
   }
 
+  /// Clears every item, e.g. after an order is confirmed.
+  void checkout() {
+    HapticFeedback.heavyImpact();
+    repository.clear();
+    _refresh();
+  }
+
   void _refresh() => emit(CartState(items: repository.getAll()));
 }
