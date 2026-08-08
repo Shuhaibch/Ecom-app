@@ -5,12 +5,14 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ecom/core/constants/hive_constants.dart';
 import 'package:ecom/core/network/dio_client.dart';
 import 'package:ecom/core/network/network_info.dart';
+import 'package:ecom/features/products/di/products_injection.dart';
 
 final GetIt sl = GetIt.instance;
 
 Future<void> initDependencies() async {
   await _initHive();
   _initCore();
+  initProductsFeature();
 }
 
 Future<void> _initHive() async {

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ecom/core/router/app_routes.dart';
 import 'package:ecom/core/router/app_shell.dart';
 import 'package:ecom/core/router/placeholder_page.dart';
+import 'package:ecom/features/products/presentation/pages/products_page.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -19,8 +20,7 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: AppRoutes.products,
-              builder: (context, state) =>
-                  const PlaceholderBody(title: 'Products'),
+              builder: (context, state) => const ProductsPage(),
               routes: [
                 GoRoute(
                   path: AppRoutes.productDetails,
