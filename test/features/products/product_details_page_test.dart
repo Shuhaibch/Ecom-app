@@ -5,12 +5,29 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:ecom/core/error/failures.dart';
 import 'package:ecom/core/utils/result.dart';
+import 'package:ecom/features/favourites/domain/repositories/favourites_repository.dart';
+import 'package:ecom/features/favourites/presentation/bloc/favourites_cubit.dart';
 import 'package:ecom/features/products/domain/entities/product.dart';
 import 'package:ecom/features/products/domain/repositories/products_repository.dart';
 import 'package:ecom/features/products/domain/usecases/get_product_by_id.dart';
 import 'package:ecom/features/products/presentation/bloc/product_details_cubit.dart';
 import 'package:ecom/features/products/presentation/pages/product_details_page.dart';
 import 'package:ecom/l10n/app_localizations.dart';
+
+class _FakeFavouritesRepository implements FavouritesRepository {
+  final Set<int> _ids = {};
+
+  @override
+  List<Product> getAll() => const [];
+
+  @override
+  bool isFavourite(int productId) => _ids.contains(productId);
+
+  @override
+  void toggle(Product product) {
+    if (!_ids.add(product.id)) _ids.remove(product.id);
+  }
+}
 
 class _FakeGetProductById implements GetProductById {
   final Future<Result<Product>> Function(GetProductByIdParams) handler;
@@ -44,8 +61,13 @@ const _product = Product(
 
 Future<void> _pumpDetails(WidgetTester tester, GetProductById useCase) async {
   await tester.pumpWidget(
-    BlocProvider(
-      create: (_) => ProductDetailsCubit(useCase)..load(1),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ProductDetailsCubit(useCase)..load(1)),
+        BlocProvider(
+          create: (_) => FavouritesCubit(_FakeFavouritesRepository()),
+        ),
+      ],
       child: MaterialApp(
         supportedLocales: const [Locale('en')],
         localizationsDelegates: const [

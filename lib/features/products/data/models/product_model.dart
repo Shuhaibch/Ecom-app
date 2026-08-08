@@ -15,6 +15,22 @@ class ProductModel extends Product {
     required super.images,
   });
 
+  factory ProductModel.fromEntity(Product product) {
+    return ProductModel(
+      id: product.id,
+      title: product.title,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      discountPercentage: product.discountPercentage,
+      rating: product.rating,
+      stock: product.stock,
+      brand: product.brand,
+      thumbnail: product.thumbnail,
+      images: product.images,
+    );
+  }
+
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       id: _asInt(json['id']),

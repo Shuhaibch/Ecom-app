@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ecom/core/router/app_routes.dart';
 import 'package:ecom/core/router/app_shell.dart';
 import 'package:ecom/core/router/placeholder_page.dart';
+import 'package:ecom/features/favourites/presentation/pages/favourites_page.dart';
 import 'package:ecom/features/products/presentation/pages/product_details_page.dart';
 import 'package:ecom/features/products/presentation/pages/products_page.dart';
 
@@ -44,8 +45,7 @@ final GoRouter appRouter = GoRouter(
           routes: [
             GoRoute(
               path: AppRoutes.favourites,
-              builder: (context, state) =>
-                  const PlaceholderBody(title: 'Favourites'),
+              builder: (context, state) => const FavouritesPage(),
             ),
           ],
         ),

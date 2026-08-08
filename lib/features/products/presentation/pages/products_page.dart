@@ -7,6 +7,8 @@ import 'package:ecom/core/router/app_routes.dart';
 import 'package:ecom/core/widgets/app_empty_view.dart';
 import 'package:ecom/core/widgets/app_error_view.dart';
 import 'package:ecom/core/widgets/offline_banner.dart';
+import 'package:ecom/features/favourites/presentation/bloc/favourites_cubit.dart';
+import 'package:ecom/features/products/domain/entities/product.dart';
 import 'package:ecom/features/products/presentation/bloc/products_bloc.dart';
 import 'package:ecom/features/products/presentation/bloc/products_event.dart';
 import 'package:ecom/features/products/presentation/bloc/products_state.dart';
@@ -165,16 +167,30 @@ class _ProductsViewState extends State<ProductsView> {
               if (index >= state.products.length) {
                 return const _PaginationSkeletonCard();
               }
-              final product = state.products[index];
-              return ProductCard(
-                product: product,
-                onTap: () =>
-                    context.push(AppRoutes.productDetailsPath(product.id)),
-              );
+              return _ProductGridItem(product: state.products[index]);
             },
           ),
         );
     }
+  }
+}
+
+class _ProductGridItem extends StatelessWidget {
+  final Product product;
+
+  const _ProductGridItem({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    final isFavourite = context.select<FavouritesCubit, bool>(
+      (cubit) => cubit.isFavourite(product.id),
+    );
+    return ProductCard(
+      product: product,
+      isFavourite: isFavourite,
+      onFavouriteToggle: () => context.read<FavouritesCubit>().toggle(product),
+      onTap: () => context.push(AppRoutes.productDetailsPath(product.id)),
+    );
   }
 }
 

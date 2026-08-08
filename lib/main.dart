@@ -6,6 +6,7 @@ import 'package:ecom/core/di/injection_container.dart';
 import 'package:ecom/core/localization/locale_cubit.dart';
 import 'package:ecom/core/router/app_router.dart';
 import 'package:ecom/core/theme/app_theme.dart';
+import 'package:ecom/features/favourites/presentation/bloc/favourites_cubit.dart';
 import 'package:ecom/l10n/app_localizations.dart';
 
 Future<void> main() async {
@@ -19,8 +20,11 @@ class EcomApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => LocaleCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => LocaleCubit()),
+        BlocProvider.value(value: sl<FavouritesCubit>()),
+      ],
       child: BlocBuilder<LocaleCubit, Locale>(
         builder: (context, locale) {
           return MaterialApp.router(

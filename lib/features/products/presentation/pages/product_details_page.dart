@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:ecom/core/di/injection_container.dart';
 import 'package:ecom/core/widgets/app_error_view.dart';
+import 'package:ecom/features/favourites/presentation/bloc/favourites_cubit.dart';
 import 'package:ecom/features/products/domain/entities/product.dart';
 import 'package:ecom/features/products/presentation/bloc/product_details_cubit.dart';
 import 'package:ecom/features/products/presentation/bloc/product_details_state.dart';
@@ -99,10 +100,23 @@ class _ProductDetailsContentState extends State<_ProductDetailsContent> {
           pinned: true,
           expandedHeight: 320,
           actions: [
-            IconButton(
-              icon: const Icon(Icons.favorite_border),
-              tooltip: l10n.addToFavourites,
-              onPressed: null,
+            Builder(
+              builder: (context) {
+                final isFavourite = context.select<FavouritesCubit, bool>(
+                  (cubit) => cubit.isFavourite(product.id),
+                );
+                return IconButton(
+                  icon: Icon(
+                    isFavourite ? Icons.favorite : Icons.favorite_border,
+                  ),
+                  color: isFavourite ? colorScheme.error : null,
+                  tooltip: isFavourite
+                      ? l10n.removeFromFavourites
+                      : l10n.addToFavourites,
+                  onPressed: () =>
+                      context.read<FavouritesCubit>().toggle(product),
+                );
+              },
             ),
           ],
           flexibleSpace: FlexibleSpaceBar(
