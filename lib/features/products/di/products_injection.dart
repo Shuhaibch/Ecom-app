@@ -6,9 +6,11 @@ import 'package:ecom/features/products/data/datasources/products_remote_data_sou
 import 'package:ecom/features/products/data/repositories/products_repository_impl.dart';
 import 'package:ecom/features/products/domain/repositories/products_repository.dart';
 import 'package:ecom/features/products/domain/usecases/get_categories.dart';
+import 'package:ecom/features/products/domain/usecases/get_product_by_id.dart';
 import 'package:ecom/features/products/domain/usecases/get_products.dart';
 import 'package:ecom/features/products/domain/usecases/get_products_by_category.dart';
 import 'package:ecom/features/products/domain/usecases/search_products.dart';
+import 'package:ecom/features/products/presentation/bloc/product_details_cubit.dart';
 import 'package:ecom/features/products/presentation/bloc/products_bloc.dart';
 
 void initProductsFeature() {
@@ -32,6 +34,7 @@ void initProductsFeature() {
     ..registerLazySingleton(() => SearchProducts(sl()))
     ..registerLazySingleton(() => GetProductsByCategory(sl()))
     ..registerLazySingleton(() => GetCategories(sl()))
+    ..registerLazySingleton(() => GetProductById(sl()))
     ..registerFactory(
       () => ProductsBloc(
         getProducts: sl(),
@@ -39,5 +42,6 @@ void initProductsFeature() {
         getProductsByCategory: sl(),
         getCategories: sl(),
       ),
-    );
+    )
+    ..registerFactory(() => ProductDetailsCubit(sl()));
 }

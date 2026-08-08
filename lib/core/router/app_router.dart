@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ecom/core/router/app_routes.dart';
 import 'package:ecom/core/router/app_shell.dart';
 import 'package:ecom/core/router/placeholder_page.dart';
+import 'package:ecom/features/products/presentation/pages/product_details_page.dart';
 import 'package:ecom/features/products/presentation/pages/products_page.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -27,8 +28,13 @@ final GoRouter appRouter = GoRouter(
                   // Pushed on the root navigator so it covers the bottom
                   // nav and shell AppBar instead of nesting inside them.
                   parentNavigatorKey: rootNavigatorKey,
-                  builder: (context, state) =>
-                      const PlaceholderPage(title: 'Product details'),
+                  builder: (context, state) {
+                    final id = int.tryParse(state.pathParameters['id'] ?? '');
+                    if (id == null) {
+                      return const PlaceholderPage(title: 'Product details');
+                    }
+                    return ProductDetailsPage(productId: id);
+                  },
                 ),
               ],
             ),
