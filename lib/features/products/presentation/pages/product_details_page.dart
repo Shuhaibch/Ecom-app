@@ -334,28 +334,104 @@ class _AddToCartBar extends StatelessWidget {
                         label: Text(l10n.addToCart),
                       ),
                     )
-                  : Row(
+                  : _QuantityStepper(
                       key: const ValueKey('stepper'),
-                      children: [
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: () =>
-                                context.read<CartCubit>().decrement(product),
-                            icon: const Icon(Icons.remove),
-                            label: Text('${l10n.quantity}: $quantity'),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        IconButton.filled(
-                          onPressed: quantity >= product.stock
-                              ? null
-                              : () => context.read<CartCubit>().increment(product),
-                          icon: const Icon(Icons.add),
-                        ),
-                      ],
+                      quantity: quantity,
+                      onDecrement: () =>
+                          context.read<CartCubit>().decrement(product),
+                      onIncrement: quantity >= product.stock
+                          ? null
+                          : () => context.read<CartCubit>().increment(product),
                     ),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class _QuantityStepper extends StatelessWidget {
+  final int quantity;
+  final VoidCallback onDecrement;
+  final VoidCallback? onIncrement;
+
+  const _QuantityStepper({
+    super.key,
+    required this.quantity,
+    required this.onDecrement,
+    required this.onIncrement,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final borderRadius = BorderRadius.circular(12);
+
+    return Container(
+      width: double.infinity,
+      height: 48,
+      decoration: BoxDecoration(
+        color: colorScheme.primaryContainer,
+        borderRadius: borderRadius,
+      ),
+      child: Row(
+        children: [
+          _StepButton(
+            icon: Icons.remove,
+            onPressed: onDecrement,
+            borderRadius: BorderRadius.horizontal(left: borderRadius.topLeft),
+          ),
+          Expanded(
+            child: Center(
+              child: Text(
+                '$quantity',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: colorScheme.onPrimaryContainer,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          _StepButton(
+            icon: Icons.add,
+            onPressed: onIncrement,
+            borderRadius: BorderRadius.horizontal(right: borderRadius.topRight),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StepButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback? onPressed;
+  final BorderRadius borderRadius;
+
+  const _StepButton({
+    required this.icon,
+    required this.onPressed,
+    required this.borderRadius,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: borderRadius,
+        onTap: onPressed,
+        child: SizedBox(
+          width: 56,
+          height: 48,
+          child: Icon(
+            icon,
+            color: onPressed == null
+                ? colorScheme.onPrimaryContainer.withValues(alpha: 0.35)
+                : colorScheme.onPrimaryContainer,
+          ),
         ),
       ),
     );

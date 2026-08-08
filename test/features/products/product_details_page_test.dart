@@ -130,7 +130,19 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(find.text('Add to cart'), findsNothing);
-    expect(find.text('Quantity: 1'), findsOneWidget);
+    expect(find.text('1'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pump();
+    expect(find.text('2'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.remove));
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.remove));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(find.text('Add to cart'), findsOneWidget);
   });
 
   testWidgets('shows error view on failure and retries on tap', (tester) async {
