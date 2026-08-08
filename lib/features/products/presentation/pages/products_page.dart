@@ -7,6 +7,7 @@ import 'package:ecom/core/router/app_routes.dart';
 import 'package:ecom/core/widgets/app_empty_view.dart';
 import 'package:ecom/core/widgets/app_error_view.dart';
 import 'package:ecom/core/widgets/offline_banner.dart';
+import 'package:ecom/features/cart/presentation/bloc/cart_cubit.dart';
 import 'package:ecom/features/favourites/presentation/bloc/favourites_cubit.dart';
 import 'package:ecom/features/products/domain/entities/product.dart';
 import 'package:ecom/features/products/presentation/bloc/products_bloc.dart';
@@ -185,10 +186,15 @@ class _ProductGridItem extends StatelessWidget {
     final isFavourite = context.select<FavouritesCubit, bool>(
       (cubit) => cubit.isFavourite(product.id),
     );
+    final cartQuantity = context.select<CartCubit, int>(
+      (cubit) => cubit.quantityOf(product.id),
+    );
     return ProductCard(
       product: product,
       isFavourite: isFavourite,
       onFavouriteToggle: () => context.read<FavouritesCubit>().toggle(product),
+      cartQuantity: cartQuantity,
+      onAddToCart: () => context.read<CartCubit>().increment(product),
       onTap: () => context.push(AppRoutes.productDetailsPath(product.id)),
     );
   }

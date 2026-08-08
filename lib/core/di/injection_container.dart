@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ecom/core/constants/hive_constants.dart';
 import 'package:ecom/core/network/dio_client.dart';
 import 'package:ecom/core/network/network_info.dart';
+import 'package:ecom/features/cart/di/cart_injection.dart';
 import 'package:ecom/features/favourites/di/favourites_injection.dart';
 import 'package:ecom/features/products/di/products_injection.dart';
 
@@ -15,6 +16,7 @@ Future<void> initDependencies() async {
   _initCore();
   initProductsFeature();
   initFavouritesFeature();
+  initCartFeature();
 }
 
 Future<void> _initHive() async {

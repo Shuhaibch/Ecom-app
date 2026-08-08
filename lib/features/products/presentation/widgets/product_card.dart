@@ -8,10 +8,9 @@ class ProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback? onTap;
 
-  /// Null while the favourites/cart features aren't wired in yet — the
-  /// buttons render disabled until then.
   final bool isFavourite;
   final VoidCallback? onFavouriteToggle;
+  final int cartQuantity;
   final VoidCallback? onAddToCart;
 
   const ProductCard({
@@ -20,6 +19,7 @@ class ProductCard extends StatelessWidget {
     this.onTap,
     this.isFavourite = false,
     this.onFavouriteToggle,
+    this.cartQuantity = 0,
     this.onAddToCart,
   });
 
@@ -156,11 +156,15 @@ class ProductCard extends StatelessWidget {
                             ),
                           ),
                   ),
-                  _CircleIconButton(
-                    icon: Icons.add_shopping_cart_rounded,
-                    tooltip: l10n.addToCart,
-                    filled: true,
-                    onPressed: product.isOutOfStock ? null : onAddToCart,
+                  Badge(
+                    isLabelVisible: cartQuantity > 0,
+                    label: Text('$cartQuantity'),
+                    child: _CircleIconButton(
+                      icon: Icons.add_shopping_cart_rounded,
+                      tooltip: l10n.addToCart,
+                      filled: true,
+                      onPressed: product.isOutOfStock ? null : onAddToCart,
+                    ),
                   ),
                 ],
               ),

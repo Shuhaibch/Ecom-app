@@ -5,6 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:ecom/core/error/failures.dart';
 import 'package:ecom/core/utils/result.dart';
+import 'package:ecom/features/cart/domain/entities/cart_item.dart';
+import 'package:ecom/features/cart/domain/repositories/cart_repository.dart';
+import 'package:ecom/features/cart/presentation/bloc/cart_cubit.dart';
 import 'package:ecom/features/favourites/domain/repositories/favourites_repository.dart';
 import 'package:ecom/features/favourites/presentation/bloc/favourites_cubit.dart';
 import 'package:ecom/features/products/domain/entities/product.dart';
@@ -26,6 +29,22 @@ class _FakeFavouritesRepository implements FavouritesRepository {
   @override
   void toggle(Product product) {
     if (!_ids.add(product.id)) _ids.remove(product.id);
+  }
+}
+
+class _FakeCartRepository implements CartRepository {
+  final Map<int, CartItem> _items = {};
+
+  @override
+  List<CartItem> getAll() => _items.values.toList();
+
+  @override
+  void setQuantity(Product product, int quantity) {
+    if (quantity <= 0) {
+      _items.remove(product.id);
+    } else {
+      _items[product.id] = CartItem(product: product, quantity: quantity);
+    }
   }
 }
 
@@ -67,6 +86,7 @@ Future<void> _pumpDetails(WidgetTester tester, GetProductById useCase) async {
         BlocProvider(
           create: (_) => FavouritesCubit(_FakeFavouritesRepository()),
         ),
+        BlocProvider(create: (_) => CartCubit(_FakeCartRepository())),
       ],
       child: MaterialApp(
         supportedLocales: const [Locale('en')],
@@ -93,6 +113,23 @@ void main() {
     expect(find.text('Comfortable everyday sneakers.'), findsOneWidget);
     expect(find.text('\$90.00'), findsOneWidget);
     expect(useCase.callCount, 1);
+  });
+
+  testWidgets('tapping add to cart switches to a quantity stepper', (
+    tester,
+  ) async {
+    final useCase = _FakeGetProductById((_) async => const Ok(_product));
+
+    await _pumpDetails(tester, useCase);
+    await tester.pump();
+
+    expect(find.text('Add to cart'), findsOneWidget);
+
+    await tester.tap(find.text('Add to cart'));
+    await tester.pump();
+
+    expect(find.text('Add to cart'), findsNothing);
+    expect(find.text('Quantity: 1'), findsOneWidget);
   });
 
   testWidgets('shows error view on failure and retries on tap', (tester) async {
